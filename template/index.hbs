@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        
+
+<style>
+
+
+.main{
+    display: flex;
+}
+
+.box{
+    background-color: darkslategrey;
+    height: 300px;
+    width: 250px;
+    margin: 20px;
+    box-shadow: 2px 2px lightblue;
+    text-align: center;
+    align-items: center;
+
+     
+}
+h4{
+    
+    color: azure;
+}
+
+input{
+
+    gap: 10px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-left: 49px;
+    margin-top: 30px;
+    background-color: transparent;
+    border: none;
+
+    
+    
+}
+
+
+.quotes{
+    background-color: darkslategrey;
+    height: 240px;
+    width: 750px;
+    margin: 20px;
+    box-shadow: 2px 2px lightblue;
+    padding: 30px;
+}
+
+
+.box:hover{
+
+    padding:2px ;
+}
+
+.btn{
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+
+
+    
+}
+
+
+
+hr{
+    width: 160px;
+    background-color:white;
+    
+    
+    
+}
+
+
+*:focus{
+ outline: none;
+}
+
+
+#qts{
+
+
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      font-size: xx-large;
+      
+      color: chartreuse;
+    
+}
+
+#auth{
+    color: red;
+    position: absolute;
+    top: 480px;
+    left: 1200px;
+    text-transform: uppercase;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+</style>
+
+
+
+</head>
+<body>
+    {{>header}}
+    <h1>THIS IS HOME PAGE</h1>
+
+
+   <div class="main">
+
+   <div class="box">
+   <h4>BMI</h4> 
+    <form action="/"method='post'>
+    
+     <input type="text" id ='heigth' name="height" placeholder="What's your height??" autocomplete="off">
+
+     <hr>
+     <input type="text" id=" weight" name="weight" placeholder="What's your weight??" autocomplete="off">
+     <hr>
+     
+
+    <button  type="submit" class="btn">Submit </button>
+    
+    </form>
+    
+   </div>
+
+<div class="box">
+  <h4 > WEATHER OF</h4> 
+    <input type="text" id ="rohit"placeholder="What's your city?? "autocomplete="off">
+     <hr>
+      <input type="text" id ="result"placeholder="result "autocomplete="off">
+     <hr>
+     <br><br><br>
+     <button type="submit" class="btn" id="weather">Submit</button>
+   
+</div>
+
+
+
+<div class="quotes">
+
+    <h2 id="qts"></h2>
+    <h4 id="auth">author</h4>
+
+   </div>
+
+   </div>
+
+   
+
+<script>   
+
+
+
+let a=document.querySelector('#weather')
+  let b=document.querySelector('#rohit')
+  let result=document.querySelector('#result')
+
+
+
+const  fun= async(event)=>{
+    
+    event.preventDefault();
+  
+
+    if(b.value =="")
+    {
+        b.value="Please Mention your city name"
+    
+
+      }else{
+         try{
+        
+            let url=`https://api.openweathermap.org/data/2.5/weather?q=${b.value}&units=metric&appid=ef4b309cd2a8d0f9e260f80f180211d2`
+            const response=await fetch(url) // jason data      
+            console.log(response)
+            const data= await response.json()   //converting in object  
+            console.log(data)
+            const arrdata=[data]; //converting in array
+            console.log(arrdata)
+            result.value=arrdata[0].main.temp
+
+
+
+            }catch{
+        console.log(b.value)
+        document.querySelector("#result").value="Please mention you city name properly..."   
+        console.log('city name is wrong')}   
+        
+      }  
+}      
+
+a.addEventListener('click',fun)
+
+
+
+
+
+  function qts(){
+
+  
+
+        let ran=Math.random()
+
+        const api = fetch('https://type.fit/api/quotes').then((data) => {
+
+            return data.json()
+        }).then((data) => {
+            console.log(data[0].text)
+             document.querySelector('#qts').innerText=data[Math.floor(ran*1000)].text 
+              
+             document.querySelector('#auth').innerText=data[Math.floor(ran*1000)].author+'.'
+
+
+                      
+        })
+
+
+
+
+
+
+setTimeout(()=>{
+
+
+
+
+        requestAnimationFrame(qts)
+
+},5000)
+        
+   
+
+
+}
+    
+    requestAnimationFrame(qts)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+   
+{{>footer}}
+
+
+
+
+</body>
+</html>
